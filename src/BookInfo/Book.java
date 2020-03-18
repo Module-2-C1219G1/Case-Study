@@ -2,9 +2,9 @@ package BookInfo;
 
 public class Book {
 
-    private String category;
+    private Category category;
     private String nameBook;
-    private Author author;
+    private String author;
     private double price;
     private int bookCode;
     private Publisher publisher;
@@ -14,7 +14,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(String category, String nameBook, Author author, double price, int bookCode, Publisher publisher, int yearOfPublication, boolean bookStatus) {
+    public Book(Category category, String nameBook, String author, double price, int bookCode, Publisher publisher, int yearOfPublication) {
         this.category = category;
         this.nameBook = nameBook;
         this.author = author;
@@ -25,11 +25,11 @@ public class Book {
         this.bookStatus = true;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -41,11 +41,11 @@ public class Book {
         this.nameBook = nameBook;
     }
 
-    public Author getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -87,5 +87,16 @@ public class Book {
 
     public void setBookStatus(boolean bookStatus) {
         this.bookStatus = bookStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Name Book: " + nameBook + '\n' +
+                "Price: " + price + '\n' +
+                "Category: " + category + '\n' +
+                "Author: " + author + '\n' +
+                "Publisher=" + publisher + '\n' +
+                "Year Of Publication: " + yearOfPublication + '\n' +
+                "Book Code=" + bookCode;
     }
 }
