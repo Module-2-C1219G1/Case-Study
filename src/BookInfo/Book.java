@@ -93,10 +93,12 @@ public class Book {
     public String toString() {
         return "Name Book: " + nameBook + '\n' +
                 "Price: " + price + '\n' +
-                "Category: " + category + '\n' +
+                "Category: " + category.getName() + '\n' +
                 "Author: " + author + '\n' +
-                "Publisher=" + publisher + '\n' +
+                "Publisher: " + publisher.getName() + '\n' +
                 "Year Of Publication: " + yearOfPublication + '\n' +
-                "Book Code=" + bookCode;
+                "Book Code:" + bookCode+'\n'+
+                "------------------------------";
+
     }
 }

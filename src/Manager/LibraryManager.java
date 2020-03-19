@@ -6,7 +6,7 @@ import Log.ActivityLog;
 import java.io.*;
 import java.util.*;
 
-public class LibraryManager {
+public class LibraryManager implements Serializable{
     public ActivityLog activityLog = new ActivityLog();
     public static int countBook = 0;
     public static int countUser = 0;
@@ -147,6 +147,7 @@ public class LibraryManager {
             return;
         }
         library.put(book.getBookCode(), book);
+        categoryList.put(book.getCategory().getCategoryCode(),book.getCategory());
         countBook++;
         activityLog.WriteActivityLog(book, "add");
         System.out.println("add complete !");
@@ -436,58 +437,67 @@ public class LibraryManager {
         System.out.println("change complete !");
     }
     //------------------------------------------------------------------------------------------
-    //display libraries -- done
-    public void displayLibraries() {
+    //display libraries
+    public String displayLibraries() {
         int count = 1;
+        String myString ="";
         Set<Map.Entry<Integer, Book>> setOfEntries = library.entrySet();
         for (Map.Entry<Integer, Book> entry : setOfEntries) {
                Book book = entry.getValue();
-            System.out.println(count+". "+book.toString());
+            myString = myString+"\n"+count + book.toString();
             count++;
         }
+        return myString;
     }
     //display user -- done
-    public void displayUserList() {
+    public String displayUserList() {
         int count = 1;
+        String myString= "";
         Set<Map.Entry<Integer, User>> setOfEntries = userList.entrySet();
         for (Map.Entry<Integer, User> entry : setOfEntries) {
             User user = entry.getValue();
-            System.out.println(count+". "+ user.toString());
+            myString = myString+"\n"+count + user.toString();
             count++;
         }
+        return myString;
     }
     //display category -- done
     public String displayCategoryList() {
         int count = 1;
-        String myString = null;
+        String myString = "";
         Set<Map.Entry<Integer, Category>> setOfEntries = categoryList.entrySet();
         for (Map.Entry<Integer, Category> entry : setOfEntries) {
             Category category = entry.getValue();
-            myString = myString+"\n"+count+". "+ category.toString();
+            myString = myString+"\n"+count +category.toString();
             count++;
         }
         return myString;
     }
     //display publisher -- done
-    public void displayPublisherList() {
+    public String displayPublisherList() {
         int count = 1;
+        String myString = "";
         Set<Map.Entry<Integer, Publisher>> setOfEntries = publisherList.entrySet();
         for (Map.Entry<Integer, Publisher> entry : setOfEntries) {
             Publisher publisher = entry.getValue();
-            System.out.println(count+". "+ publisher.toString());
+            myString = myString+"\n"+count +publisher.toString();
             count++;
         }
+        return myString;
     }
-    //-----------------------------------------------------------
-    //display File log
+    //display File log -- done
     public void displayActiveLog() throws IOException {
+        System.out.println("-----------Active Log:--------------");
+        int count =1;
         File file;
         BufferedReader bufferedReader = new BufferedReader(new FileReader(activityLog.fileActiveLog));
         String contentLine = bufferedReader.readLine();
         while ((contentLine = bufferedReader.readLine()) != null) {
-            System.out.println(contentLine + "\n");
+            System.out.println(count+". "+contentLine + "\n");
             contentLine = bufferedReader.readLine();
+             count++;
         }
     }
+//------------------------------------------------------------------------------------------------
 
 }

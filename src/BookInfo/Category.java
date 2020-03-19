@@ -12,6 +12,7 @@ public class Category {
         this.name = name;
         this.isCategory = true;
         this.categoryCode = categoryCode;
+
     }
 
     public String getName() {

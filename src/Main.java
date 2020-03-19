@@ -16,9 +16,12 @@ public class Main {
         Category haihuoc = new Category("kinh di",2);
         Publisher tuoitre = new Publisher("kim dong",2);
         User user1 = new User(2,"theanh","18001508");
-        Book book1 = new Book(kinh_di,"shin","chiu",10000,2 ,kim_dong,1998);
+        Book book1 = new Book(haihuoc,"shin","chiu",10000,2 ,kim_dong,1998);
         libraryManager.addBook(book);
         libraryManager.addBook(book1);
+        System.out.println(libraryManager.searchBook(1, libraryManager.library));
         System.out.println( libraryManager.displayCategoryList());
+        System.out.println(libraryManager.displayLibraries());
+        libraryManager.displayActiveLog();
     }
 }
