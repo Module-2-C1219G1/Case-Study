@@ -2,7 +2,6 @@
 import BookInfo.Category;
 import BookInfo.Publisher;
 import Manager.LibraryManager;
-import Manager.User;
 
 import java.util.Scanner;
 
@@ -12,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         LibraryManager libraryManager = new LibraryManager();
-        String choose = null;
+        String choose;
         boolean exit = false;
         Scanner scanner = new Scanner(System.in);
         // show menu
@@ -67,8 +66,8 @@ public class Main {
     private static void giveBookBack(LibraryManager libraryManager) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String nameBook, bookId, userName, userId;
-        int searchBook = 0;
-        int searchUser = 0;
+        int searchBook;
+        int searchUser;
         do {
             System.out.println("Enter the name of book: ");
             nameBook = scanner.nextLine();
@@ -92,8 +91,8 @@ public class Main {
     private static void lenBook(LibraryManager libraryManager) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String nameBook, bookId, userName, userId;
-        int searchBook = 0;
-        int searchUser = 0;
+        int searchBook;
+        int searchUser;
         do {
             System.out.println("Enter the name of book: ");
             nameBook = scanner.nextLine();
@@ -116,21 +115,21 @@ public class Main {
 
     private static void changeInfoMenu(LibraryManager libraryManager) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        String choose = null;
+        String choose;
         boolean exit = false;
         System.out.println("-----------search Menu------------");
         System.out.println("1. change name book");
         System.out.println("2. change price");
         System.out.println("3. change author");
-        System.out.println("5. change publisher name");
-        System.out.println("6 .change category name ");
-        System.out.println("8 .change name user");
-        System.out.println("9 .change phone user");
+        System.out.println("4. change publisher name");
+        System.out.println("5 .change category name ");
+        System.out.println("6 .change name user");
+        System.out.println("7 .change phone user");
         System.out.println("0 .exit.");
         System.out.println("---------------------------");
         System.out.println("Enter Choose: ");
-        String nameBook, userName, bookId, userId, newUser,newName, newAuthor, newPublisher, namePublisher,nameCategory,newCategory;
-        int searchBook = -1, searchUser = -1, searchPublisher = -1,searchCategory = -1;
+        String nameBook, userName, bookId, userId, newUser, newName, newAuthor, newPublisher, namePublisher, nameCategory, newCategory, newPhoneNumber;
+        int searchBook = -1, searchUser = -1, searchPublisher = -1, searchCategory = -1;
         double newPrice;
 
         while (true) {
@@ -221,25 +220,27 @@ public class Main {
                         userId = scanner.nextLine();
                         System.out.println("Enter new name of publisher: ");
                         newUser = scanner.nextLine();
-                        searchUser = libraryManager.searchUser(userName,userId);
-                        libraryManager.changeUser(userName,userId,newUser);
+                        searchUser = libraryManager.searchUser(userName, userId);
+                        libraryManager.changeUser(userName, userId, newUser);
                         if (searchPublisher == -1) {
                             System.out.println("Please create new or enter another !");
                         }
                     }
                 case "7":
-                    // change phone number
+                    // change phone number of User
                     do {
-                        System.out.println("Enter code of book want change: ");
-                        codeBook = scanner.nextInt();
+                        System.out.println("Enter Name of user: ");
+                        userName = scanner.nextLine();
+                        System.out.println("Enter code of User: ");
+                        userId = scanner.nextLine();
                         System.out.println("Enter new phone number : ");
-                        newName = scanner.nextLine();
-                        searchBook = libraryManager.searchBook(codeBook, libraryManager.library);
-                        libraryManager.userList.get(searchBook).setPhoneNumber(newName);
-                        if (searchBook == -1) {
+                        newPhoneNumber = scanner.nextLine();
+                        searchUser = libraryManager.searchUser(userName, userId);
+                        libraryManager.userList.get(searchBook).setPhoneNumber(newPhoneNumber);
+                        if (searchUser == -1) {
                             System.out.println("Please create new or enter another !");
                         }
-                    } while (searchBook == -1);
+                    } while (searchUser == -1);
                     break;
                 case "0":
                     System.out.println("exited!");
@@ -257,116 +258,50 @@ public class Main {
 
     }
 
-    private static void showDeleteMenu(LibraryManager libraryManager) {
+    private static void showDeleteMenu(LibraryManager libraryManager) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        String choose = null;
+        String choose;
         boolean exit = false;
-        System.out.println("-----------delete menu------------");
-        System.out.println("1. delete category with name");
-        System.out.println("2. delete category with code");
-        System.out.println("3. delete user with code");
-        System.out.println("4. delete book with name");
-        System.out.println("5. delete book with code");
-        System.out.println("6. delete Publisher with name");
-        System.out.println("7. delete publisher with code");
-        System.out.println("8. Clear screen");
-        System.out.println("0. exit.");
+        System.out.println("-----------delete Menu------------");
+        System.out.println("1. delete book");
+        System.out.println("2. delete user");
+        System.out.println("0 .exit.");
         System.out.println("---------------------------");
         System.out.println("Enter Choose: ");
-        int codeUser, codeCategory, codePublisher, searchCategory, bookCode, searchUser, searchBook, searchPublisher;
-        String nameBook, nameCategory, namePublisher;
+        String nameBook, userName, bookId, userId;
+        int searchBook = -1, searchUser = -1;
 
         while (true) {
             choose = scanner.nextLine();
             switch (choose) {
                 case "1":
-                    //delete category with name - done
-                    //----------------------------------------------------
-                    do {
-                        System.out.println("Enter name category");
-                        nameCategory = scanner.nextLine();
-                        searchCategory = libraryManager.searchCategory(nameCategory, libraryManager.categoryList);
-                        if (searchCategory == -1) {
-                            System.out.println("Category doesn't Exist ! please create new or enter another !");
+                    //delete book
+                    while (searchBook == -1) {
+                        System.out.println("Enter the name of book: ");
+                        nameBook = scanner.nextLine();
+                        System.out.println("Enter the Id of book: ");
+                        bookId = scanner.nextLine();
+                        libraryManager.deleteBook(nameBook, bookId);
+                        searchBook = libraryManager.searchBook(nameBook, bookId);
+                        if (searchBook == -1) {
+                            System.out.println("Please create new or enter another !");
                         }
-                        libraryManager.categoryList.remove(searchCategory);
-                    } while (searchCategory == -1);
+
+                    }
                     break;
                 case "2":
-                    // delete with category with code -- done
-                    do {
-                        System.out.println("Enter code category");
-                        codeCategory = scanner.nextInt();
-                        searchCategory = libraryManager.searchCategory(codeCategory, libraryManager.categoryList);
-                        if (searchCategory == -1) {
-                            System.out.println("Category doesn't Exist ! please create new or enter another !");
-                        }
-                        libraryManager.categoryList.remove(searchCategory);
-                    } while (searchCategory == -1);
-                    break;
-                case "3":
-                    //delete user with code -- done
-                    do {
-                        System.out.println("Enter code user");
-                        codeUser = scanner.nextInt();
-                        searchUser = libraryManager.searchUser(codeUser, libraryManager.userList);
-                        if (searchUser == -1) {
-                            System.out.println("user doesn't Exist ! please create new or enter another !");
-                        }
-                        libraryManager.userList.remove(searchUser);
-                    } while (searchUser == -1);
-                    break;
-                case "4":
-                    // delete book with name -- done
-                    do {
-                        System.out.println("Enter name book: ");
-                        nameBook = scanner.nextLine();
-                        searchBook = libraryManager.searchBook(nameBook, libraryManager.library);
+                    //delete user
+                    while (searchUser == -1) {
+                        System.out.println("Enter the name of User: ");
+                        userName = scanner.nextLine();
+                        System.out.println("Enter the Id of User: ");
+                        userId = scanner.nextLine();
+                        libraryManager.deleteUser(userName, userId);
+                        searchUser = libraryManager.searchUser(userName, userId);
                         if (searchBook == -1) {
-                            System.out.println("Book doesn't Exist ! please create new or enter another !");
+                            System.out.println("Please create new or enter another !");
                         }
-                        libraryManager.library.remove(searchBook);
-                    } while (searchBook == -1);
-                    break;
-                case "5":
-                    // delete book with code-- done
-                    do {
-                        System.out.println("Enter code book: ");
-                        bookCode = scanner.nextInt();
-                        searchBook = libraryManager.searchBook(bookCode, libraryManager.library);
-                        if (searchBook == -1) {
-                            System.out.println("book doesn't Exist ! please create new or enter another !");
-                        }
-                        libraryManager.library.remove(searchBook);
-                    } while (searchBook == -1);
-                    break;
-                case "6":
-                    // delete publisher with name -- done
-                    do {
-                        System.out.println("Enter name Publisher: ");
-                        namePublisher = scanner.nextLine();
-                        searchPublisher = libraryManager.searchPublisher(namePublisher, libraryManager.publisherList);
-                        if (searchPublisher == -1) {
-                            System.out.println("Publisher doesn't Exist ! please create new or enter another !");
-                        }
-                        libraryManager.publisherList.remove(searchPublisher);
-                    } while (searchPublisher == -1);
-                    break;
-                case "7":
-                    // delete publisher with code-- done
-                    do {
-                        System.out.println("Enter code Publisher: ");
-                        codePublisher = scanner.nextInt();
-                        searchPublisher = libraryManager.searchPublisher(codePublisher, libraryManager.publisherList);
-                        if (searchPublisher == -1) {
-                            System.out.println("publisher doesn't Exist ! please create new or enter another !");
-                        }
-                        libraryManager.library.remove(searchPublisher);
-                    } while (searchPublisher == -1);
-                    break;
-                case "8":
-                    System.out.flush();
-                    break;
+                    }
                 case "0":
                     System.out.println("exited!");
                     exit = true;
@@ -380,28 +315,31 @@ public class Main {
             }
             showDeleteMenu(libraryManager);
         }
+
     }
 
     private static void showAddMenu(LibraryManager libraryManager) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        String choose = null;
+        String choose;
         boolean exit = false;
         System.out.println("-----------Add Menu------------");
         System.out.println("1. new book ");
         System.out.println("2. new user");
         System.out.println("3. new category");
         System.out.println("4. new publisher");
-        System.out.println("5. Clear screen");
         System.out.println("0. exit.");
         System.out.println("---------------------------");
         System.out.println("Enter Choose: ");
-        int bookCode, codeUser, codeCategory, codePublisher, searchCategory, searchPublisher, yearOfPublication;
+        String userId;
+        int searchCategory;
+        int searchPublisher;
+        String yearOfPublication;
         double price;
 
         Publisher publisher;
         Category category;
-        String nameBook, nameAuthor, nameUser, nameCategory, namePublisher,
-                phoneNumber, categoryName, publisherName;
+        String nameBook, nameAuthor, nameUser, nameCategory, namePublisher, bookId,
+                phoneNumber, categoryName, publisherName, address;
         while (true) {
             choose = scanner.nextLine();
             switch (choose) {
@@ -409,13 +347,12 @@ public class Main {
                     //add book
                     //----------------------------------------------------
                     do {
-                        System.out.println("Enter name category");
+                        System.out.println("Enter name category: ");
                         nameCategory = scanner.nextLine();
-                        searchCategory = libraryManager.searchCategory(nameCategory, libraryManager.categoryList);
+                        searchCategory = libraryManager.searchCategory(nameCategory);
                         if (searchCategory == -1) {
                             System.out.println("Category doesn't Exist ! please create new or enter another !");
                         }
-
                     } while (searchCategory == -1);
                     category = libraryManager.categoryList.get(searchCategory);
                     //---------------------------------------------------------
@@ -426,52 +363,49 @@ public class Main {
                     System.out.println("Enter price");
                     price = scanner.nextDouble();
                     System.out.println("Enter Book code: ");
-                    bookCode = scanner.nextInt();
+                    bookId = scanner.nextLine();
                     //------------------------------------------------------------------------
                     do {
                         System.out.println("Enter name publisher");
                         namePublisher = scanner.nextLine();
-                        searchPublisher = libraryManager.searchPublisher(namePublisher, libraryManager.publisherList);
+                        searchPublisher = libraryManager.searchPublisher(namePublisher);
                         if (searchPublisher == -1) {
-                            System.out.println("Publisher doesn't tExist ! please create new or enter another!");
+                            System.out.println("Publisher doesn't Exist ! please create new or enter another!");
                         }
-
                     } while (searchPublisher == -1);
                     publisher = libraryManager.publisherList.get(searchPublisher);
                     //----------------------------
                     System.out.println("Enter year of publication: ");
-                    yearOfPublication = scanner.nextInt();
-                    libraryManager.addBook(category, nameBook, nameAuthor, price, bookCode, publisher, yearOfPublication);
+                    yearOfPublication = scanner.nextLine();
+                    libraryManager.addBook(nameBook, price, nameAuthor, category, publisher, yearOfPublication, bookId);
                     break;
                 case "2":
-                    // add user
-                    System.out.println("Enter the code user: ");
-                    codeUser = scanner.nextInt();
+                    // add new user
                     System.out.println("Enter the name user: ");
                     nameUser = scanner.nextLine();
-                    nameUser = scanner.nextLine();
-
                     System.out.println("Enter the phone number: ");
                     phoneNumber = scanner.nextLine();
-                    libraryManager.addUser(codeUser, nameUser, phoneNumber);
+
+                    System.out.println("Enter the user Id: ");
+                    userId = scanner.nextLine();
+                    libraryManager.addUser(nameUser, phoneNumber, userId);
                     break;
                 case "3":
-                    // add category
+                    // add new category
                     System.out.println("Enter the category name: ");
                     categoryName = scanner.nextLine();
-                    System.out.println("Enter the category code: ");
-                    codeCategory = scanner.nextInt();
-                    libraryManager.addCategory(categoryName, codeCategory);
+                    libraryManager.addCategory(categoryName);
                     break;
                 case "4":
-                    // add publisher
+                    // add new publisher
                     System.out.println("Enter the publisher name: ");
                     publisherName = scanner.nextLine();
-                    System.out.println("Enter the publisher code: ");
-                    codePublisher = scanner.nextInt();
-                    libraryManager.addCategory(publisherName, codePublisher);
+                    System.out.println("Enter the publisher phoneNumber: ");
+                    phoneNumber = scanner.nextLine();
+                    System.out.println("Enter publisher address: ");
+                    address = scanner.nextLine();
+                    libraryManager.addPublisher(publisherName, phoneNumber, address);
                     break;
-
                 case "5":
                     System.out.flush();
                     break;
@@ -492,7 +426,7 @@ public class Main {
 
     private static void showDisplayMenu(LibraryManager libraryManager) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        String choose = null;
+        String choose;
         boolean exit = false;
         System.out.println("-----------search Menu------------");
         System.out.println("1. Display library");
@@ -500,35 +434,26 @@ public class Main {
         System.out.println("3. Display category list");
         System.out.println("4. Display publisher");
         System.out.println("5. Display active log");
-        System.out.println("6. Clear screen");
         System.out.println("0. exit.");
         System.out.println("---------------------------");
         System.out.println("Enter Choose: ");
-
         while (true) {
             choose = scanner.nextLine();
             switch (choose) {
                 case "1":
-                    System.out.println("---------- library list---------------");
-                    System.out.println(libraryManager.displayLibraries());
+                    libraryManager.displayLibraries();
                     break;
                 case "2":
-                    System.out.println("-----------User list-------------------");
-                    System.out.println(libraryManager.displayUserList());
+                    libraryManager.displayUserList();
                     break;
                 case "3":
-                    System.out.println("-----------Category list----------------");
-                    System.out.println(libraryManager.displayCategoryList());
+                    libraryManager.displayCategoryList();
                     break;
                 case "4":
-                    System.out.println("------------Publisher list --------------");
-                    System.out.println(libraryManager.displayPublisherList());
+                    libraryManager.displayPublisherList();
                     break;
                 case "5":
-                    System.out.println("------------Active Log------------------- ");
                     libraryManager.displayActiveLog();
-                case "6":
-                    System.out.flush();
                 case "0":
                     System.out.println("exited!");
                     exit = true;
@@ -542,75 +467,68 @@ public class Main {
             }
             showDisplayMenu(libraryManager);
         }
-
-
     }
 
     public static void showSearchMenu(LibraryManager libraryManager) {
         Scanner scanner = new Scanner(System.in);
-        String choose = null;
+        String choose;
         boolean exit = false;
         System.out.println("-----------search Menu------------");
-        System.out.println("1. Search book with name");
-        System.out.println("2. search book with code");
-        System.out.println("3. Search user with name");
-        System.out.println("4. Search user with code");
-        System.out.println("5. Search category with name");
-        System.out.println("6. search category with code");
-        System.out.println("7. search Publisher with name");
-        System.out.println("8. Search publisher with code");
-        System.out.println("9. Clear screen");
+        System.out.println("1. Search book ");
+        System.out.println("3. Search user ");
+        System.out.println("4. Search category ");
+        System.out.println("7. search Publisher");
         System.out.println("0. exit.");
         System.out.println("---------------------------");
         System.out.println("Enter Choose: ");
-        int codeBook, codeUser, codeCategory, codePublisher;
+        String bookId;
+        String userId;
+        int searchBook, searchUser, searchPublisher, searchCategory;
         String nameBook, nameUser, nameCategory, namePublisher;
-
         while (true) {
             choose = scanner.nextLine();
             switch (choose) {
                 case "1":
                     System.out.println("Enter name Book: ");
                     nameBook = scanner.nextLine();
-                    libraryManager.searchBook(nameBook, libraryManager.library);
+                    System.out.println("Enter ID Book: ");
+                    bookId = scanner.nextLine();
+                    searchBook = libraryManager.searchBook(nameBook, bookId);
+                    if (searchBook == -1) {
+                        break;
+                    }
+                    System.out.println(libraryManager.library.get(searchBook).toString());
                     break;
                 case "2":
-                    System.out.println("Enter code Book: ");
-                    codeBook = scanner.nextInt();
-                    libraryManager.searchBook(codeBook, libraryManager.library);
-                    break;
-                case "3":
+                    // search User
                     System.out.println("Enter name User: ");
                     nameUser = scanner.nextLine();
-                    libraryManager.searchUser(nameUser, libraryManager.userList);
+                    System.out.println("Enter ID Book: ");
+                    userId = scanner.nextLine();
+                    searchUser = libraryManager.searchUser(nameUser, userId);
+                    if (searchUser == -1) {
+                        break;
+                    }
+                    System.out.println(libraryManager.userList.get(searchUser).toString());
                     break;
-                case "4":
-                    System.out.println("Enter code User: ");
-                    codeUser = scanner.nextInt();
-                    libraryManager.searchUser(codeUser, libraryManager.userList);
+                case "3":
+                    System.out.println("Enter name category: ");
+                    nameCategory = scanner.nextLine();
+                    searchCategory = libraryManager.searchCategory(nameCategory);
+                    if (searchCategory == -1) {
+                        break;
+                    }
+                    System.out.println(libraryManager.categoryList.get(searchCategory).toString());
                     break;
                 case "5":
-                    System.out.println("Enter name Category: ");
-                    nameCategory = scanner.nextLine();
-                    libraryManager.searchCategory(nameCategory, libraryManager.categoryList);
-                    break;
-                case "6":
-                    System.out.println("Enter code Category: ");
-                    codeCategory = scanner.nextInt();
-                    libraryManager.searchCategory(codeCategory, libraryManager.categoryList);
-                    break;
-                case "7":
                     System.out.println("Enter name publisher: ");
                     namePublisher = scanner.nextLine();
-                    libraryManager.searchPublisher(namePublisher, libraryManager.publisherList);
+                    searchPublisher = libraryManager.searchPublisher(namePublisher);
+                    if (searchPublisher == -1) {
+                        break;
+                    }
+                    System.out.println(libraryManager.publisherList.get(searchPublisher).toString());
                     break;
-                case "8":
-                    System.out.println("Enter code publisher: ");
-                    codePublisher = scanner.nextInt();
-                    libraryManager.searchPublisher(codePublisher, libraryManager.publisherList);
-                    break;
-                case "9":
-                    System.out.flush();
                 case "0":
                     System.out.println("exited!");
                     exit = true;
@@ -618,6 +536,7 @@ public class Main {
                 default:
                     System.out.println("invalid! please choose action in below menu:");
                     break;
+
             }
             if (exit) {
                 return;
@@ -626,7 +545,6 @@ public class Main {
         }
 
     }
-
     public static void showMainMenu() {
         System.out.println("-----------Library Manager------------");
         System.out.println("1. Search.");
@@ -642,5 +560,3 @@ public class Main {
         System.out.println("---------------------------");
     }
 }
-
-

@@ -20,7 +20,7 @@ public class LibraryManager implements Serializable {
     public ArrayList<User> userList;
     public ArrayList<Category> categoryList;
 
-    public LibraryManager() throws IOException, NotSerializableException {
+    public LibraryManager() throws IOException {
         library = new ArrayList<>();
         publisherList = new ArrayList<>();
         userList = new ArrayList<>();
@@ -259,7 +259,6 @@ public class LibraryManager implements Serializable {
     //----------------------------------------------------------------------------------------------------------------
     //change author
     public void changeAuthor(String name, String id, String nameChange) throws IOException {
-
         if (searchBook(name, id) == -1) {
             System.out.println("doesn't exist !");
             return;
@@ -397,9 +396,5 @@ public class LibraryManager implements Serializable {
         library.add(book);
         countBook++;
         activityLog.WriteActivityLog(book, "Lend book from user: " + user.getName() + ",code: " + user.getUserID());
-    }
-
-    public void changeUser(String userName, String userId, String newUser) {
-
     }
 }
