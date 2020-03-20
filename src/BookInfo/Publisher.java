@@ -1,18 +1,21 @@
 package BookInfo;
 
-public class Publisher {
+import java.io.Serializable;
+
+public class Publisher implements Serializable {
     private String name;
-    private int publisherCode;
-    private boolean isPublisher = false;
+    private String phoneNumber;
+    private String address;
+
 
     public Publisher() {
-        this.isPublisher = true;
     }
 
-    public Publisher(String name, int publisherCode) {
+    public Publisher(String name, String phoneNumber, String address) {
         this.name = name;
-        this.publisherCode = publisherCode;
-      this.isPublisher = true;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+
     }
 
     public String getName() {
@@ -23,22 +26,29 @@ public class Publisher {
         this.name = name;
     }
 
-    public int getPublisherCode() {
-        return publisherCode;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPublisherCode(int publisherCode) {
-        this.publisherCode = publisherCode;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isHasPublisher() {
-        return  isPublisher;
+    public String getAddress() {
+        return address;
     }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
 
     @Override
     public String toString() {
         return
-                "Name: " +name + '\n' +
-                "Publisher Code: "+ publisherCode ;
+                "Name: " + this.getName() + '\n' +
+                        "Phone Number: " + this.getPhoneNumber() + '\n' +
+                        "Name: " + this.getAddress() ;
+
     }
 }

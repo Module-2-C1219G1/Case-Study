@@ -1,36 +1,29 @@
 package BookInfo;
 
-public class Book {
+import java.io.Serializable;
 
-    private Category category;
+public class Book implements Serializable {
+
+
     private String nameBook;
-    private String author;
     private double price;
-    private int bookCode;
+    private String author;
+    private Category category;
     private Publisher publisher;
-    private int yearOfPublication;
-    private boolean bookStatus = false;
+    private String yearOfPublication;
+    private String bookId;
 
     public Book() {
     }
 
-    public Book(Category category, String nameBook, String author, double price, int bookCode, Publisher publisher, int yearOfPublication) {
-        this.category = category;
+    public Book(String nameBook, double price, String author, Category category,  Publisher publisher, String yearOfPublication,String bookId) {
         this.nameBook = nameBook;
-        this.author = author;
         this.price = price;
-        this.bookCode = bookCode;
+        this.author = author;
+        this.category = category;
         this.publisher = publisher;
         this.yearOfPublication = yearOfPublication;
-        this.bookStatus = true;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+        this.bookId = bookId;
     }
 
     public String getNameBook() {
@@ -41,14 +34,6 @@ public class Book {
         this.nameBook = nameBook;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public double getPrice() {
         return price;
     }
@@ -57,12 +42,20 @@ public class Book {
         this.price = price;
     }
 
-    public int getBookCode() {
-        return bookCode;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setBookCode(int bookCode) {
-        this.bookCode = bookCode;
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Publisher getPublisher() {
@@ -73,31 +66,31 @@ public class Book {
         this.publisher = publisher;
     }
 
-    public int getYearOfPublication() {
+    public String getYearOfPublication() {
         return yearOfPublication;
     }
 
-    public void setYearOfPublication(int yearOfPublication) {
+    public void setYearOfPublication(String yearOfPublication) {
         this.yearOfPublication = yearOfPublication;
     }
 
-    public boolean isBook() {
-        return bookStatus;
+    public String getBookId() {
+        return bookId;
     }
 
-    public void setBookStatus(boolean bookStatus) {
-        this.bookStatus = bookStatus;
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     @Override
     public String toString() {
-        return "Name Book: " + nameBook + '\n' +
-                "Price: " + price + '\n' +
+        return "Name Book: " + getNameBook() + '\n' +
+                "Price: " + getPrice() + '\n' +
                 "Category: " + category.getName() + '\n' +
                 "Author: " + author + '\n' +
                 "Publisher: " + publisher.getName() + '\n' +
-                "Year Of Publication: " + yearOfPublication + '\n' +
-                "Book Code:" + bookCode+'\n'+
+                "Year Of Publication: " + getYearOfPublication() + '\n' +
+                "Book ID: " + getBookId()+ '\n' +
                 "------------------------------";
 
     }

@@ -2,36 +2,39 @@ package Manager;
 
 import BookInfo.Book;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class User {
-    private int userCode;
+public class User implements Serializable {
     private String name;
     private String phoneNumber;
-    private HashMap<Integer, Book> cart;
-    private boolean isUser = false;
+    private String userID;
+    private ArrayList<Book> cart;
 
     public User() {
-        this.isUser = true;
     }
 
-    public User(int userCode, String name, String phoneNumber) {
-        this.userCode = userCode;
+    public User(String name, String phoneNumber, String userID) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.isUser = true;
-        this.cart = new HashMap<>();
-
+        this.userID = userID;
+        this.cart = new ArrayList<>();
     }
 
-    public int getUserCode() {
-        return userCode;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUserCode(int id) {
-        this.userCode = id;
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public void giveBookBack(Book book) {
+        cart.remove(book);
+    }
+
+    public void takeBook(Book book) {
+        cart.add(book);
     }
 
     public String getName() {
@@ -51,35 +54,29 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public HashMap<Integer, Book> getCart() {
+    public ArrayList<Book> getCart() {
         return cart;
     }
 
-    public void setCart(HashMap<Integer, Book> cart) {
+    public void setCart(ArrayList<Book> cart) {
         this.cart = cart;
     }
 
-    public boolean isHasUser() {
-        return isUser;
-    }
-
     public String getCartList() {
-
         int count = 1;
-        String myCart = " ---------------------\nlist book use take: ";
-        Set<Map.Entry<Integer, Book>> setOfEntries = cart.entrySet();
-        for (Map.Entry<Integer, Book> entry : setOfEntries) {
-            Book value = entry.getValue();
-            myCart = count + ". " + value.getNameBook() + "\n";
+        StringBuilder myCart = new StringBuilder(" ---------------------\nlist book use take: ");
+        for (Book book : cart) {
+            myCart = new StringBuilder(count + ". " + myCart + book.toString() + "\n");
         }
-        return myCart;
+
+        return myCart.toString();
     }
 
     @Override
     public String toString() {
         return
-                "User Code : " + userCode + '\n' +
-                        "Name " + name + '\n' +
-                        "Phone Number: " + phoneNumber + '\n' + getCartList();
+                "Name " + getName() + '\n' +
+                        "Phone Number: " + phoneNumber + '\n' + getCartList()+'\n'+
+                "ID user: "+getUserID();
     }
 }
